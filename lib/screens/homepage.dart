@@ -78,10 +78,26 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,              
               children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 50,left: 20),
-                  child: Text(fText, style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),),
-                ),
+               Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Container(
+                      width: 380,
+                      height: 400,
+                      //decoration:
+                      //BoxDecoration(color: Color.fromRGBO(0, 246, 113, 1), borderRadius: BorderRadius.circular(20),
+                      //boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.3),spreadRadius: 0.5,blurRadius: 2, offset: Offset(0, 1), )]
+                      //),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,              
+                        children: [ 
+                          Padding(
+                            padding: EdgeInsets.all(22),
+                            child:Text(fText, textAlign: TextAlign.center, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
               ]
             )
           ),
