@@ -9,6 +9,7 @@ import 'package:google_translator/google_translator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+  final String apiKey = "AIzaSyDVVL3xd6st3YnY3dN7DE-vD1JQ_D9SCS4";
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -138,7 +139,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,              
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 70, left: 0),
+              padding: EdgeInsets.only(top: 80, left: 0),
               child: FloatingActionButton(
                 onPressed: () {
                   listen();

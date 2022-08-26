@@ -6,6 +6,7 @@ import 'package:project_x/screens/homepage.dart';
 import 'package:google_translator/google_translator.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
