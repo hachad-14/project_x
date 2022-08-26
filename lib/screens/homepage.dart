@@ -1,7 +1,11 @@
-// ignore_for_file: no_logic_in_create_state, prefer_const_constructors, avoid_unnecessary_containers, library_private_types_in_public_api
+// ignore_for_file: no_logic_in_create_state, prefer_const_constructors, avoid_unnecessary_containers, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, avoid_print, unnecessary_string_interpolations
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import '../main.dart';
+
 import 'package:speech_to_text/speech_to_text.dart' as stts;
+import 'package:google_translator/google_translator.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   bool islistening = false;
   final String _currentLocaleId = 'fr';
   String fText = "Appuyer sur le micro pour lancer la discussion.";
+  String rText = "Texte Traduit";
 
   void listen() async {
     if (!islistening) {
@@ -27,19 +32,18 @@ class _HomePageState extends State<HomePage> {
           islistening = true;
         });
         _speechToText.listen(
-           localeId: _currentLocaleId,
-            onResult: (result) => setState(() {
-                  fText = result.recognizedWords;
-                }));
-      }
-    } else {
+          localeId: _currentLocaleId,
+          onResult: (result) => setState(() {
+            fText = result.recognizedWords;
+          }));
+        }
+      } else {
       setState(() {
         islistening = false;
       });
       _speechToText.stop();
     }
   }
-  
 
   @override
   void initState() {
@@ -75,29 +79,49 @@ class _HomePageState extends State<HomePage> {
           alignment: Alignment(0, 0),
           child: Container(
             margin: const EdgeInsets.only(top:0),
-            child: Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,              
               children: [
-               Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Container(
-                      width: 380,
-                      height: 400,
-                      //decoration:
-                      //BoxDecoration(color: Color.fromRGBO(0, 246, 113, 1), borderRadius: BorderRadius.circular(20),
-                      //boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.3),spreadRadius: 0.5,blurRadius: 2, offset: Offset(0, 1), )]
-                      //),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,              
-                        children: [ 
-                          Padding(
-                            padding: EdgeInsets.all(22),
-                            child:Text(fText, textAlign: TextAlign.center, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-                          ),
-                        ],
-                      ),
+                Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Container(
+                    width: 380,
+                    height: 250,
+                    decoration:
+                    BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0), borderRadius: BorderRadius.circular(20),
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1),spreadRadius: 0.5,blurRadius: 2, offset: Offset(0, 1), )]
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,              
+                      children: [ 
+                        Padding(
+                          padding: EdgeInsets.all(22),
+                          child:Text(fText, textAlign: TextAlign.center, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                        ),
+                      ],
                     ),
                   ),
+                ),
+                Padding( //reponse
+                  padding: EdgeInsets.only(top: 20),
+                  child: Container(
+                    width: 380,
+                    height: 170,
+                    decoration:
+                    BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0), borderRadius: BorderRadius.circular(20),
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1),spreadRadius: 0.5,blurRadius: 2, offset: Offset(0, 1), )]
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,              
+                      children: [ 
+                        Padding(
+                          padding: EdgeInsets.all(0),
+                        ),
+                        Text(fText, textAlign: TextAlign.center, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)).translate(),
+                      ],
+                    ),
+                  ),
+                ),
               ]
             )
           ),
@@ -110,13 +134,21 @@ class _HomePageState extends State<HomePage> {
         endRadius: 80,
         duration: Duration(seconds: 1),
         repeat: true,
-        child: FloatingActionButton(
-          onPressed: () {
-            listen();
-          },
-          child: Icon(islistening ? Icons.mic : Icons.mic_none),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,              
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 70, left: 0),
+              child: FloatingActionButton(
+                onPressed: () {
+                  listen();
+                },
+                child: Icon(islistening ? Icons.mic : Icons.mic_none),
+              ),
+            ),
+          ],
         ),
-      ),
+      )
     );
   }
 }
