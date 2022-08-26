@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var _speechToText = stts.SpeechToText();
   bool islistening = false;
+  final String _currentLocaleId = 'fr';
   String fText = "Appuyer sur le micro pour lancer la discussion.";
 
   void listen() async {
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
           islistening = true;
         });
         _speechToText.listen(
+           localeId: _currentLocaleId,
             onResult: (result) => setState(() {
                   fText = result.recognizedWords;
                 }));
@@ -37,6 +39,7 @@ class _HomePageState extends State<HomePage> {
       _speechToText.stop();
     }
   }
+  
 
   @override
   void initState() {
