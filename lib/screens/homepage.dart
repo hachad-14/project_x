@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
               children: const [
                 Padding(
                   padding: EdgeInsets.only(right: 120, left: 120),
-                  child: Text("Project X", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                  child: Text("Project X v0.1", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
