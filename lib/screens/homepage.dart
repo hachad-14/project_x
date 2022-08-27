@@ -14,21 +14,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  GoogleTranslator translator = GoogleTranslator();
 
-  void translate() {
-    translator.translate(fText, to: "es").then((output) {
-      setState(() {
-        fText = output as String;
-      });
-    });
-  }
+  GoogleTranslator translator = GoogleTranslator();
 
   var _speechToText = stts.SpeechToText();
   bool islistening = false;
   final String _currentLocaleId = 'fr';
   String fText = "Appuyer sur le micro pour lancer la discussion.";
-  String rText = "";
+  String rText = "...";
+
+  void translate() {
+    translator.translate(fText, to: "es").then((output) {
+      setState(() {
+        rText = output as String;
+      });
+    });
+  }
 
   void listen() async {
     if (!islistening) {
@@ -63,133 +64,95 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(children: <Widget>[
-          Align(
-            alignment: Alignment(0, 0),
-            child: Container(
-              margin: const EdgeInsets.only(top: 30),
-              height: 60,
-              width: 380,
-              decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        spreadRadius: 0.5,
-                        blurRadius: 2,
-                        offset: Offset(0, 1))
-                  ]),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.only(right: 120, left: 120),
-                    child: Text("Project X v0.1",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ],
-              ),
+      body: ListView(children: <Widget>[
+        Align(
+          alignment: Alignment(0, 0),
+          child: Container(
+            margin: const EdgeInsets.only(top: 30),
+            height: 60,
+            width: 380,
+            decoration: BoxDecoration(color: Colors.red,borderRadius: BorderRadius.circular(20),boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.3),spreadRadius: 0.5,blurRadius: 2,offset: Offset(0, 1))]),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Padding(
+                  padding: EdgeInsets.only(right: 120, left: 120),
+                  child: Text("Project X v0.1",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold)),
+                ),
+              ],
             ),
           ),
-          Align(
-            alignment: Alignment(0, 0),
-            child: Container(
-                margin: const EdgeInsets.only(top: 0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 20),
-                        child: Container(
-                          width: 380,
-                          height: 250,
-                          decoration: BoxDecoration(
-                              color: Color.fromRGBO(0, 0, 0, 0),
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  spreadRadius: 0.5,
-                                  blurRadius: 2,
-                                  offset: Offset(0, 1),
-                                )
-                              ]),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(22),
-                                child: Text(fText,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold)),
-                              ),
-                            ],
-                          ),
+        ),
+        Align(
+          alignment: Alignment(0, 0),
+          child: Container(
+              margin: const EdgeInsets.only(top: 0),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Container(
+                        width: 380,
+                        height: 250,
+                        decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0),borderRadius: BorderRadius.circular(20),boxShadow: [
+                        BoxShadow(color: Colors.black.withOpacity(0.1),spreadRadius: 0.5,blurRadius: 2,offset: Offset(0, 1))]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(22),
+                              child: Text(fText,textAlign: TextAlign.center,style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
+                            ),
+                          ],
                         ),
                       ),
-                      Padding(
-                        //reponse
-                        padding: EdgeInsets.only(top: 20),
-                        child: Container(
-                          width: 380,
-                          height: 170,
-                          decoration: BoxDecoration(
-                              color: Color.fromRGBO(0, 0, 0, 0),
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  spreadRadius: 0.5,
-                                  blurRadius: 2,
-                                  offset: Offset(0, 1),
-                                )
-                              ]),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(0),
-                              ),
-                              Text(rText,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold)),
-                            ],
-                          ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Container(
+                        width: 380,
+                        height: 170,
+                        decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0),borderRadius: BorderRadius.circular(20),boxShadow: [
+                        BoxShadow(color: Colors.black.withOpacity(0.1),spreadRadius: 0.5,blurRadius: 2,offset: Offset(0, 1))]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(0),
+                            ),
+                            Text(rText,textAlign: TextAlign.center,style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
+                          ],
                         ),
                       ),
-                    ])),
-          ),
-        ]),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: AvatarGlow(
-          animate: islistening,
-          glowColor: Colors.red,
-          endRadius: 80,
-          duration: Duration(seconds: 1),
-          repeat: true,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 0, left: 0),
-                child: FloatingActionButton(
-                  onPressed: () {
-                    listen();
-                    translate();
-                  },
-                  child: Icon(islistening ? Icons.mic : Icons.mic_none),
-                ),
+                    ),
+                  ])),
+        ),
+      ]),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: AvatarGlow(
+        animate: islistening,
+        glowColor: Colors.red,
+        endRadius: 80,
+        duration: Duration(seconds: 1),
+        repeat: true,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 0, left: 0),
+              child: FloatingActionButton(
+                onPressed: () {
+                  listen();
+                  translate();
+                },
+                child: Icon(islistening ? Icons.mic : Icons.mic_none),
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      )
+    );
   }
 }
