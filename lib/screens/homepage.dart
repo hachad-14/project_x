@@ -15,21 +15,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  GoogleTranslator translator = GoogleTranslator();
+  final translator = GoogleTranslator();
 
   var _speechToText = stts.SpeechToText();
   bool islistening = false;
   final String _currentLocaleId = 'fr';
   String fText = "Appuyer sur le micro pour lancer la discussion.";
   String rText = "...";
-
-  void translate() {
-    translator.translate(fText, to: "es").then((output) {
-      setState(() {
-        rText = output as String;
-      });
-    });
-  }
 
   void listen() async {
     if (!islistening) {
@@ -42,10 +34,10 @@ class _HomePageState extends State<HomePage> {
           islistening = true;
         });
         _speechToText.listen(
-            localeId: _currentLocaleId,
-            onResult: (result) => setState(() {
-                  fText = result.recognizedWords;
-                }));
+          localeId: _currentLocaleId,
+          onResult: (result) => setState(() {
+            fText = result.recognizedWords;
+        }));
       }
     } else {
       setState(() {
@@ -53,6 +45,14 @@ class _HomePageState extends State<HomePage> {
       });
       _speechToText.stop();
     }
+  }
+
+  void translate() {
+    translator.translate(fText, from:'fr', to: 'es').then((output) {
+      setState(() {
+        rText = output.toString();
+      });
+    });
   }
 
   @override
