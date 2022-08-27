@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
           localeId: _currentLocaleId,
           onResult: (result) => setState(() {
             fText = result.recognizedWords;
+            translate();
         }));
       }
     } else {
@@ -145,7 +146,7 @@ class _HomePageState extends State<HomePage> {
               child: FloatingActionButton(
                 onPressed: () {
                   listen();
-                  translate();
+                  //translate();
                 },
                 child: Icon(islistening ? Icons.mic : Icons.mic_none),
               ),
