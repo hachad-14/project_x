@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 
 import 'package:speech_to_text/speech_to_text.dart' as stts;
 import 'package:translator/translator.dart';
+import 'package:clipboard/clipboard.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,8 +17,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final translator = GoogleTranslator();
+
+  final speaker = FlutterTts();
+  final textEditingController = TextEditingController();
 
   var _speechToText = stts.SpeechToText();
   bool islistening = false;
@@ -34,11 +39,11 @@ class _HomePageState extends State<HomePage> {
           islistening = true;
         });
         _speechToText.listen(
-          localeId: _currentLocaleId,
-          onResult: (result) => setState(() {
-            fText = result.recognizedWords;
-            translate();
-        }));
+            localeId: _currentLocaleId,
+            onResult: (result) => setState(() {
+                  fText = result.recognizedWords;
+                  translate();
+                }));
       }
     } else {
       setState(() {
@@ -48,8 +53,26 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void copy() {
+    FlutterClipboard.copy(rText).then((value) => print('copied'));
+    Fluttertoast.showToast(
+        msg: "The translated sentence has been copied.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+
+  void speak(String text) async {
+    await speaker.setLanguage("es");
+    await speaker.setPitch(1);
+    await speaker.speak(rText);
+  }
+
   void translate() {
-    translator.translate(fText, from:'fr', to: 'es').then((output) {
+    translator.translate(fText, from: 'fr', to: 'es').then((output) {
       setState(() {
         rText = output.toString();
       });
@@ -65,95 +88,164 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(children: <Widget>[
-        Align(
-          alignment: Alignment(0, 0),
-          child: Container(
-            margin: const EdgeInsets.only(top: 30),
-            height: 60,
-            width: 380,
-            decoration: BoxDecoration(color: Colors.red,borderRadius: BorderRadius.circular(20),boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.3),spreadRadius: 0.5,blurRadius: 2,offset: Offset(0, 1))]),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Padding(
-                  padding: EdgeInsets.only(right: 120, left: 120),
-                  child: Text("Project X v0.1",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold)),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment(0, 0),
-          child: Container(
-              margin: const EdgeInsets.only(top: 0),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Container(
-                        width: 380,
-                        height: 250,
-                        decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0),borderRadius: BorderRadius.circular(20),boxShadow: [
-                        BoxShadow(color: Colors.black.withOpacity(0.1),spreadRadius: 0.5,blurRadius: 2,offset: Offset(0, 1))]),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(22),
-                              child: Text(fText,textAlign: TextAlign.center,style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Container(
-                        width: 380,
-                        height: 170,
-                        decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0),borderRadius: BorderRadius.circular(20),boxShadow: [
-                        BoxShadow(color: Colors.black.withOpacity(0.1),spreadRadius: 0.5,blurRadius: 2,offset: Offset(0, 1))]),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(0),
-                            ),
-                            Text(rText,textAlign: TextAlign.center,style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ])),
-        ),
-      ]),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: AvatarGlow(
-        animate: islistening,
-        glowColor: Colors.red,
-        endRadius: 80,
-        duration: Duration(seconds: 1),
-        repeat: true,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 0, left: 0),
-              child: FloatingActionButton(
-                onPressed: () {
-                  listen();
-                  //translate();
-                },
-                child: Icon(islistening ? Icons.mic : Icons.mic_none),
+        body: ListView(children: <Widget>[
+          Align(
+            alignment: Alignment(0, 0),
+            child: Container(
+              margin: const EdgeInsets.only(top: 30),
+              height: 60,
+              width: 380,
+              decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 0.5,
+                        blurRadius: 2,
+                        offset: Offset(0, 1))
+                  ]),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.only(right: 120, left: 120),
+                    child: Text("Project X v0.1",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      )
-    );
+          ),
+          Align(
+            alignment: Alignment(0, 0),
+            child: Container(
+                margin: const EdgeInsets.only(top: 0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Container(
+                          width: 380,
+                          height: 250,
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(0, 0, 0, 0),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    spreadRadius: 0.5,
+                                    blurRadius: 2,
+                                    offset: Offset(0, 1))
+                              ]),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 22, right: 22),
+                                child: Text(fText,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Container(
+                          width: 380,
+                          height: 170,
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(0, 0, 0, 0),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    spreadRadius: 0.5,
+                                    blurRadius: 2,
+                                    offset: Offset(0, 1))
+                              ]),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(rText,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(right: 130, left: 0),
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  copy();
+                                  print("copy");
+                                },
+                                child: Icon(islistening
+                                    ? Icons.copy
+                                    : Icons.copy_sharp),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(0),
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  speak(textEditingController.text);
+                                  print("speak");
+                                },
+                                child: Icon(islistening
+                                    ? Icons.speaker
+                                    : Icons.volume_up),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ])),
+          ),
+        ]),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: AvatarGlow(
+          animate: islistening,
+          glowColor: Colors.red,
+          endRadius: 80,
+          duration: Duration(seconds: 1),
+          repeat: true,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FloatingActionButton(
+                      onPressed: () {
+                        listen();
+                        print("object");
+                      },
+                      child: Icon(islistening ? Icons.mic : Icons.mic_none),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

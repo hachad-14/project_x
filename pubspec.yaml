@@ -7,9 +7,12 @@ environment:
   sdk: ">=2.17.6 <3.0.0"
 dependencies:
   avatar_glow: ^2.0.2
+  clipboard: ^0.1.3
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_tts: ^3.5.1
+  fluttertoast: ^8.0.9
   google_fonts: ^3.0.1
   path_provider: ^2.0.11
   path_provider_ios: ^2.0.11
