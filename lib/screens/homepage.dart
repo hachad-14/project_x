@@ -73,6 +73,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void speak() async {
+    speaker.setVolume(1.0);
+    speaker.setRate(1.0);
+    speaker.setPitch(1.0);
+    speaker.setLanguage("es");
     speaker.speak(rText);
   }
 
