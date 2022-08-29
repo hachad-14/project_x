@@ -1,4 +1,6 @@
 // ignore_for_file: no_logic_in_create_state, prefer_const_constructors, avoid_unnecessary_containers, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, avoid_print, unnecessary_string_interpolations
+import 'dart:html';
+
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +9,7 @@ import 'package:text_to_speech/text_to_speech.dart';
 import 'package:translator/translator.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_audio_manager/flutter_audio_manager.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -73,11 +76,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   void speak() async {
+    await FlutterAudioManager.changeToSpeaker();
     speaker.setVolume(1.0);
     speaker.setRate(1.0);
     speaker.setPitch(1.0);
     speaker.setLanguage("es");
     speaker.speak(rText);
+    speaker.speak("je mappeler zizi et jai 22 ans");
   }
 
   @override
