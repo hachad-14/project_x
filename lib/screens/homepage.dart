@@ -1,5 +1,4 @@
 // ignore_for_file: no_logic_in_create_state, prefer_const_constructors, avoid_unnecessary_containers, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, avoid_print, unnecessary_string_interpolations
-
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 
@@ -50,6 +49,7 @@ class _HomePageState extends State<HomePage> {
         islistening = false;
       });
       _speechToText.stop();
+      islistening = false;
     }
   }
 
@@ -79,7 +79,6 @@ class _HomePageState extends State<HomePage> {
     speaker.setPitch(1.0);
     speaker.setLanguage("es");
     speaker.speak(rText);
-    speaker.speak("je mappeler zizi et jai 22 ans");
   }
 
   @override
@@ -113,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                 children: const [
                   Padding(
                     padding: EdgeInsets.only(right: 120, left: 120),
-                    child: Text("Project X v0.1",
+                    child: Text("Project X v0.2",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
@@ -188,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 40),
+                        padding: EdgeInsets.only(top: 45),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
