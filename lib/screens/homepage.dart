@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state, prefer_const_constructors, avoid_unnecessary_containers, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, avoid_print, unnecessary_string_interpolations
+// ignore_for_file: no_logic_in_create_state, prefer_const_constructors, avoid_unnecessary_containers, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, avoid_print, unnecessary_string_interpolations, unused_field, prefer_final_fields
 import 'dart:html';
 
 import 'package:avatar_glow/avatar_glow.dart';
@@ -20,6 +20,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  AudioInput _currentInput = AudioInput("unknow", 0);
+  List<AudioInput> _availableInputs = [];
+  
   final translator = GoogleTranslator();
 
   final speaker = TextToSpeech();
@@ -55,16 +59,35 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> init() async {
+    FlutterAudioManager.setListener(() async {
+      print("-----changed-------");
+      await _getInput();
+      setState(() {});
+    });
+
+    await _getInput();
+    if (!mounted) return;
+    setState(() {});
+  }
+
+  _getInput() async {
+    _currentInput = await FlutterAudioManager.getCurrentOutput();
+    print("current:$_currentInput");
+    _availableInputs = await FlutterAudioManager.getAvailableInputs();
+    print("available $_availableInputs");
+  }
+
   void copy() {
     FlutterClipboard.copy(rText).then((value) => print('copied'));
-    //Fluttertoast.showToast(
-    //    msg: "The translated sentence has been copied.",
-    //    toastLength: Toast.LENGTH_SHORT,
-    //    gravity: ToastGravity.CENTER,
-    //    timeInSecForIosWeb: 1,
-    //    backgroundColor: Colors.red,
-    //    textColor: Colors.white,
-    //    fontSize: 16.0);
+    Fluttertoast.showToast(
+        msg: "The translated sentence has been copied.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   void translate() {
