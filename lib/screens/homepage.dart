@@ -57,14 +57,14 @@ class _HomePageState extends State<HomePage> {
 
   void copy() {
     FlutterClipboard.copy(rText).then((value) => print('copied'));
-    Fluttertoast.showToast(
-        msg: "The translated sentence has been copied.",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
+    //Fluttertoast.showToast(
+    //    msg: "The translated sentence has been copied.",
+    //    toastLength: Toast.LENGTH_SHORT,
+    //    gravity: ToastGravity.CENTER,
+    //    timeInSecForIosWeb: 1,
+    //    backgroundColor: Colors.red,
+    //    textColor: Colors.white,
+    //    fontSize: 16.0);
   }
 
   void translate() {
