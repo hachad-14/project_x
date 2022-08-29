@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void speak() async {
-    await FlutterAudioManager.changeToSpeaker();
+    FlutterAudioManager.changeToSpeaker();
     speaker.setVolume(1.0);
     speaker.setRate(1.0);
     speaker.setPitch(1.0);
