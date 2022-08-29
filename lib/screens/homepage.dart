@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 30),
+                  padding: EdgeInsets.only(top: 80),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -172,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                             speak();
                             print("speak");
                           },
-                          child: Icon(islistening? Icons.speaker: Icons.volume_up),
+                          child: Icon(islistening? Icons.speaker: Icons.speaker),
                         ),
                       ),
                     ],
@@ -194,7 +194,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 30),
+              padding: EdgeInsets.only(top: 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
