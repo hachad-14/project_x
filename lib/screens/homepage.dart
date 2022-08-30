@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void speak(String text) async {
+  void speak(String rText) async {
     await speaker.resume();
     await speaker.setVolume(1.0);
     await speaker.setPitch(1.0);
