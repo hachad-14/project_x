@@ -54,6 +54,7 @@ class _HomePageState extends State<HomePage> {
         islistening = false;
       });
       _speechToText.stop();
+      speaker.resume();
     }
   }
 
@@ -78,12 +79,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   void speak(String rText) async {
-    await speaker.resume();
-    await speaker.setVolume(1.0);
-    await speaker.setPitch(1.0);
-    await speaker.setRate(0.7);
-    await speaker.setLanguage("es");
-    await speaker.speak(rText);
+    speaker.resume();
+    speaker.setVolume(1.0);
+    speaker.setPitch(1.0);
+    speaker.setRate(0.7);
+    speaker.setLanguage("es");
+    speaker.speak(rText);
   }
 
   @override
