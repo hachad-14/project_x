@@ -77,9 +77,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void speak() async {
-    setState(() {
-      islistening = true;
-    });
+    speaker.resume();
     speaker.setVolume(1.0);
     speaker.setRate(0.7);
     speaker.setPitch(1.0);
