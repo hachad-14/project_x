@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> {
       if (available) {
         setState(() {
           islistening = true;
+          speaker.pause();
         });
         _speechToText.listen(
             localeId: _currentLocaleId,
@@ -51,6 +52,7 @@ class _HomePageState extends State<HomePage> {
         islistening = false;
       });
       _speechToText.stop();
+      speaker.resume();
     }
   }
 
@@ -75,6 +77,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void speak() async {
+    setState(() {
+      islistening = true;
+    });
     speaker.setVolume(1.0);
     speaker.setRate(0.7);
     speaker.setPitch(1.0);
