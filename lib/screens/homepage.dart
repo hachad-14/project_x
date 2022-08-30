@@ -19,6 +19,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final translator = GoogleTranslator();
 
+  final _tec = TextEditingController();
+
   final speaker = TextToSpeech();
 
   var _speechToText = stts.SpeechToText();
@@ -52,7 +54,6 @@ class _HomePageState extends State<HomePage> {
         islistening = false;
       });
       _speechToText.stop();
-      speaker.resume();
     }
   }
 
@@ -76,13 +77,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void speak() async {
-    speaker.resume();
-    speaker.setVolume(1.0);
-    speaker.setRate(0.7);
-    speaker.setPitch(1.0);
-    speaker.setLanguage("es");
-    speaker.speak(rText);
+  void speak(String text) async {
+    await speaker.resume();
+    await speaker.setVolume(1.0);
+    await speaker.setPitch(1.0);
+    await speaker.setRate(0.7);
+    await speaker.setLanguage("es");
+    await speaker.speak(rText);
   }
 
   @override
@@ -177,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.all(0),
                         child: FloatingActionButton(
                           onPressed: () {
-                            speak();
+                            speak(_tec.text);
                             print("speak");
                           },
                           child: Icon(islistening? Icons.speaker: Icons.speaker),
